@@ -9,43 +9,62 @@ changeEvents = [];
 
 eventKeys = RandomWalkParameters.eventKeys;
 
-if any(singleStepEvents(:,2) == eventKeys.saccadeEndNum)
-    eventCounters.nSaccade = eventCounters.nSaccade + 1;    
-    eventCounters.shiftPendingOn      = 1;
-    eventCounters.shiftPendingTime    = t + 50;
+if ~isempty(singleStepEvents) && any(singleStepEvents(:,2) == eventKeys.saccadeEndNum)
+    eventCounters.nSaccade = eventCounters.nSaccade + 1;
+    if mod(eventCounters.nSaccade,5) == 0
+        eventCounters.shiftInProgress     = 1;
+        eventCounters.shiftPendingTime    = t + RandomWalkParameters.EB_lag;
+        eventCounters.surpriseEnd         = t + RandomWalkParameters.surprise_offset;
+        eventCounters.encodingStart       = t + RandomWalkParameters.encoding_offset;
+        eventCounters.idx                 = randi(length(eventCounters.shiftVals));
+    end
 end
 
 
 
-if eventCounters.shiftPendingOn == 1 && t > eventCounters.shiftPendingTime
-    idx         = randi(length(eventCounters.shiftVals));
-    changeVal   = eventCounters.shiftVals(idx);
-    
-    eventCounters.shiftVals           = eventCounters.shiftVals(1:end ~= idx);
+if eventCounters.shiftInProgress == 1 && t > eventCounters.shiftPendingTime
+    changeVal   = eventCounters.shiftVals(eventCounters.idx);   
     
     if changeVal == 1
-        RandomWalkParameters.rates = RandomWalkParameters.rateIncrease;
+        if t < eventCounters.surpriseEnd
+            RandomWalkParameters.rates = RandomWalkParameters.rateChange_up_surprise;            
+        elseif t > eventCounters.encodingStart
+            RandomWalkParameters.rates = RandomWalkParameters.rateChange_up_encoding;                        
+        else
+            RandomWalkParameters.rates = RandomWalkParameters.baseRates;                                    
+        end        
         eventCounters.direction    = 1;
         %singleStepEvents = [singleStepEvents; t, eventKeys.UP];
     elseif changeVal == 2
-        RandomWalkParameters.rates = RandomWalkParameters.rateDecrease;
+        if t < eventCounters.surpriseEnd
+            RandomWalkParameters.rates = RandomWalkParameters.rateChange_up_surprise;
+        elseif t > eventCounters.encodingStart
+            RandomWalkParameters.rates = RandomWalkParameters.rateChange_up_encoding;
+        else
+            RandomWalkParameters.rates = RandomWalkParameters.baseRates;
+        end
         eventCounters.direction    = 2;
-        %singleStepEvents = [singleStepEvents; t, eventKeys.DOWN];        
+        %singleStepEvents = [singleStepEvents; t, eventKeys.DOWN];
     elseif changeVal == 3
-        RandomWalkParameters.rates = RandomWalkParameters.rateDecrease;
+        if t < eventCounters.surpriseEnd
+            RandomWalkParameters.rates = RandomWalkParameters.rateChange_down_surprise;
+        elseif t > eventCounters.encodingStart
+            RandomWalkParameters.rates = RandomWalkParameters.rateChange_down_encoding;
+        else
+            RandomWalkParameters.rates = RandomWalkParameters.baseRates;
+        end
         eventCounters.direction    = 3;
         %singleStepEvents = [singleStepEvents; t, eventKeys.DOWN];                
-    end
-    
-    eventCounters.shiftPendingOn  = 0;
-    eventCounters.shiftPendingOff = 1;
-        
+    end   
+else
+    return
 end
 
-if any(singleStepEvents(:,2) == eventKeys.saccadeStartNum)    
-    if eventCounters.shiftPendingOff == 1;
-        eventCounters.shiftPendingOff = 0;
-        RandomWalkParameters.rates = RandomWalkParameters.baseRates;
+if ~isempty(singleStepEvents) && any(singleStepEvents(:,2) == eventKeys.saccadeStartNum)    
+    if eventCounters.shiftInProgress == 1;
+        eventCounters.shiftInProgress = 0;
+        eventCounters.shiftVals           = eventCounters.shiftVals(1:end ~= eventCounters.idx);
+        RandomWalkParameters.rates = RandomWalkParameters.rates;
         saccIdx = find(globalEvents(1:end,2) == eventKeys.saccadeEndNum,1,'last');        
         fixDur  = t - globalEvents(saccIdx, 1);
         

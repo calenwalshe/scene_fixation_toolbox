@@ -29,7 +29,7 @@ dataDOWN_bin = histc(dataDOWN, edges);
 dataDOWN_P = dataDOWN_bin/sum(dataDOWN_bin);
 
 
-min_p_const = 1/10^5;
+min_p_const = 1/10^5; % very low value to avoid computing log(0)
 NLL = -sum(h_data_down .* log(dataDOWN_P + min_p_const)) + ...
     -sum(h_data_nochange .* log(dataNOCHANGE_P + min_p_const)) + ...
     -sum(h_data_up .* log(dataUP_P + min_p_const));
