@@ -9,18 +9,38 @@ function fitVal = ucm(settings)
 nSubjects = settings.NumberSubjects;
 nTrials   = settings.NumberTrials;
 
-humanData = load(settings.humanDataPath);
+if ~isempty(settings.humanDataPath)
+    humanData = load(settings.humanDataPath);
+else
+    humanData = [];
+end
 
-experimentData = cell(nTrials, nSubjects);
+experimentDataEvents  = cell(nTrials, nSubjects);
+experimentDataChanges = cell(nTrials, nSubjects);
+
+RandomWalkParameters      = settings.InitializeRandomWalkParameters(settings);
+eventKeys                 = RandomWalkParameters.eventKeys;
 
 for i = 1:nSubjects
-    for k = 1:nTrials
-        RandomWalkParameters      = settings.InitializeRandomWalkParameters(settings);
+    parfor k = 1:nTrials
         singleTrialData           = runSingleTrial(settings, RandomWalkParameters, k);
-        experimentData{k, i}      = singleTrialData;
+        
+        experimentDataChanges{k, i}      = singleTrialData.globalChanges;
+        experimentDataEvents{k, i}       = singleTrialData.globalEvents;
     end
 end
 
-eventKeys  = RandomWalkParameters.eventKeys;
+plotFcn  = settings.PlotFcn;
 
-fitVal      = settings.FitnessFcn(settings, eventKeys, experimentData, humanData);
+if ~isempty(plotFcn) 
+    plotFcn(settings, eventKeys, experimentDataChanges)
+    drawnow
+end
+
+export_all = settings.ExportFcn;
+
+if ~isempty(export_all) 
+    export_all(settings, RandomWalkParameters, experimentDataChanges, experimentDataEvents, humanData)
+end
+
+fitVal      = settings.FitnessFcn(settings, eventKeys, experimentDataChanges, humanData);

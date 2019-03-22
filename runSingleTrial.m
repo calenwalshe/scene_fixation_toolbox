@@ -38,87 +38,100 @@ saccadeEndNum        = RandomWalkParameters.eventKeys.saccadeEndNum;
 
 eventCounters = RandomWalkParameters.eventCounters;
 
-
-globalEvents  = zeros(1,2);   
-globalChanges = zeros(1,2);   
+globalEvents  = [];   
+globalChanges = [];
 t            = 0; 
+
+cancelCounter = 0;
 
 while RandomWalkParameters.simulateOn
     singleStepEvents = [];
+    if cancelCounter > 50
+        singleTrialData.globalChanges = [];
+        singleTrialData.globalEvents  = [];
+        return
+    end
     switch RandomWalkParameters.selectWalk
         case timerIdx
             if RandomWalkParameters.activeWalkLevel(timerIdx) == RandomWalkParameters.maxState(timerIdx)
-                singleStepEvents = [singleStepEvents;t timerEndNum]; %#ok<*AGROW>
                 RandomWalkParameters.activeWalkLevel(timerIdx)       = 0;
-                singleStepEvents = [singleStepEvents;t labileStartNum];
+                singleStepEvents = [singleStepEvents; [timerEndNum, RandomWalkParameters.activeWalkLevel./RandomWalkParameters.maxState, RandomWalkParameters.bWalkActive, t, trialNr]];
+                singleStepEvents = [singleStepEvents; [labileStartNum, RandomWalkParameters.activeWalkLevel./RandomWalkParameters.maxState, RandomWalkParameters.bWalkActive, t, trialNr]];
                 
-                if RandomWalkParameters.bWalkActive(labileIdx);
-                    singleStepEvents = [singleStepEvents;t labileInterruptNum];
+                if RandomWalkParameters.bWalkActive(labileIdx)
+                    singleStepEvents = [singleStepEvents; [labileInterruptNum, RandomWalkParameters.activeWalkLevel./RandomWalkParameters.maxState, RandomWalkParameters.bWalkActive, t, trialNr]];
                     
                     RandomWalkParameters.activeWalkLevel(timerIdx)       = 0;
                     RandomWalkParameters.activeWalkLevel(labileIdx)      = 0;
+                    
+                    cancelCounter = cancelCounter + 1;
+                    %display(cancelCounter);
                 end
                 
-                RandomWalkParameters.bWalkActive(labileIdx)          = 1;
+                RandomWalkParameters.bWalkActive(labileIdx)              = 1;
             end
         case labileIdx
             if RandomWalkParameters.activeWalkLevel(labileIdx) == RandomWalkParameters.maxState(labileIdx)
-                    singleStepEvents = [singleStepEvents;t labileEndNum];
+                    singleStepEvents = [singleStepEvents; [labileEndNum, RandomWalkParameters.activeWalkLevel./RandomWalkParameters.maxState, RandomWalkParameters.bWalkActive, t, trialNr]];
                     RandomWalkParameters.bWalkActive(labileIdx)          = 0;
                     RandomWalkParameters.activeWalkLevel(labileIdx)      = 0;
                 if ~RandomWalkParameters.bWalkActive(nonlabileIdx)
-                    singleStepEvents = [singleStepEvents;t nonlabileStartNum];
-                    RandomWalkParameters.bWalkActive(nonlabileIdx)          = 1;
+                    singleStepEvents = [singleStepEvents; [nonlabileStartNum, RandomWalkParameters.activeWalkLevel./RandomWalkParameters.maxState, RandomWalkParameters.bWalkActive, t, trialNr]];
+                    RandomWalkParameters.bWalkActive(nonlabileIdx)       = 1;
                 end
             end
         case nonlabileIdx
             if RandomWalkParameters.activeWalkLevel(nonlabileIdx) == RandomWalkParameters.maxState(nonlabileIdx)
-                singleStepEvents = [singleStepEvents; t nonlabileEndNum];
+                singleStepEvents = [singleStepEvents; [nonlabileEndNum, RandomWalkParameters.activeWalkLevel./RandomWalkParameters.maxState, RandomWalkParameters.bWalkActive, t, trialNr]];
                 RandomWalkParameters.activeWalkLevel(nonlabileIdx)       = 0;
                 RandomWalkParameters.bWalkActive(nonlabileIdx)           = 0;
                 
                 if ~RandomWalkParameters.bWalkActive(motorIdx)
-                    singleStepEvents = [singleStepEvents; t motorStartNum];
+                    singleStepEvents = [singleStepEvents; [motorStartNum, RandomWalkParameters.activeWalkLevel./RandomWalkParameters.maxState, RandomWalkParameters.bWalkActive, t, trialNr]];
                     RandomWalkParameters.bWalkActive(motorIdx)           = 1;
                 end
             end
         case motorIdx
             if RandomWalkParameters.activeWalkLevel(motorIdx) == RandomWalkParameters.maxState(motorIdx)
-                singleStepEvents = [singleStepEvents; t motorEndNum];
+                singleStepEvents = [singleStepEvents; [motorEndNum, RandomWalkParameters.activeWalkLevel./RandomWalkParameters.maxState, RandomWalkParameters.bWalkActive, t, trialNr]];
                 RandomWalkParameters.activeWalkLevel(motorIdx)       = 0;
                 RandomWalkParameters.bWalkActive(motorIdx)           = 0;
                 
                 if ~RandomWalkParameters.bWalkActive(saccadeIdx)
-                    singleStepEvents = [singleStepEvents; t saccadeStartNum];
-                    RandomWalkParameters.bWalkActive(saccadeIdx) = 1;
+                    singleStepEvents = [singleStepEvents; [saccadeStartNum, RandomWalkParameters.activeWalkLevel./RandomWalkParameters.maxState, RandomWalkParameters.bWalkActive, t, trialNr]];
+                    RandomWalkParameters.bWalkActive(saccadeIdx)     = 1;
                 end
             end                        
         case saccadeIdx
             if RandomWalkParameters.activeWalkLevel(saccadeIdx) == RandomWalkParameters.maxState(saccadeIdx)
-                singleStepEvents = [singleStepEvents; t saccadeEndNum];
-                RandomWalkParameters.activeWalkLevel(saccadeIdx)       = 0;
-                RandomWalkParameters.bWalkActive(saccadeIdx)           = 0;
-            end                        
+                singleStepEvents = [singleStepEvents; [saccadeEndNum, RandomWalkParameters.activeWalkLevel./RandomWalkParameters.maxState, RandomWalkParameters.bWalkActive, t, trialNr]];
+                RandomWalkParameters.activeWalkLevel(saccadeIdx)     = 0;
+                RandomWalkParameters.bWalkActive(saccadeIdx)         = 0;
+                cancelCounter = 0;
+            end
     end
 
+    [RandomWalkParameters, changeEvents, eventCounters] = settings.EventDrivenChangeFcn(RandomWalkParameters,...
+        singleStepEvents, globalEvents, eventCounters, t, trialNr);
+    
+    if ~isempty(singleStepEvents)
+        globalEvents = [globalEvents; singleStepEvents];
+    end
+    
+    if ~isempty(changeEvents)
+        globalChanges                                 = [globalChanges; changeEvents];
+    end    
+    
     RandomWalkParameters.globalRate                 = sum(RandomWalkParameters.rates .* RandomWalkParameters.bWalkActive);
     t               = t + ((-1/RandomWalkParameters.globalRate*log(1-rand)));
     RandomWalkParameters.transitionProbability      = ...
         RandomWalkParameters.rates .* RandomWalkParameters.bWalkActive ./ RandomWalkParameters.globalRate;
     
     RandomWalkParameters.selectWalk                 = randsample(5, 1, true, RandomWalkParameters.transitionProbability);
-
-    RandomWalkParameters.activeWalkLevel(RandomWalkParameters.selectWalk) = ...
-        RandomWalkParameters.activeWalkLevel(RandomWalkParameters.selectWalk) + 1;   
-
-    [RandomWalkParameters, changeEvents, eventCounters] = settings.EventDrivenChangeFcn(RandomWalkParameters, singleStepEvents, globalEvents, eventCounters, t);
-    if ~isempty(singleStepEvents)
-        globalEvents = [globalEvents; singleStepEvents];        
-    end
     
-    if ~isempty(changeEvents)
-        globalChanges                                 = [globalChanges; changeEvents];
-    end
+    RandomWalkParameters.activeWalkLevel(RandomWalkParameters.selectWalk) = ...
+        RandomWalkParameters.activeWalkLevel(RandomWalkParameters.selectWalk) + 1;
+    
 end
-
-singleTrialData = globalChanges;
+singleTrialData.globalChanges = globalChanges;
+singleTrialData.globalEvents  = globalEvents;
