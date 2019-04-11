@@ -89,36 +89,7 @@ get_binned_fixations <- function() {
   do.call(rbind, dur.exp.dat)
 }
 
+# Human raw fixation data.
 get_raw_fixations <- function() {
-  exp.dat <- lapply(1:2, FUN = function(x) import_scene_exp(x))
-  
-  f <- function(x) {
-    model.all         <- x$combined.events
-    names(model.all)  <- c("duration", "event", "trial", "condition")
-    model.duration    <- model.all %>%
-      filter(condition %in% c("DOWN.DUR", "UP.DUR", "NOCHANGE.DUR")) %>%
-      select(-event) %>%
-      mutate(d_type = "model") %>%
-      as_tibble()
-    
-    model.duration$condition <-
-      factor(
-        model.duration$condition,
-        levels = c("NOCHANGE.DUR", "UP.DUR", "DOWN.DUR"),
-        labels = c(1, 2, 3)
-      )
-    
-    return(model.duration)
-  }
-  
-  model.dat <- lapply(1:length(exp.dat), FUN = function(x) { 
-    f(exp.dat[[x]]) %>% 
-      mutate(experiment = x)})
-  
-  model.dat <- do.call(rbind, model.dat) %>%
-    filter(!is.na(duration))
-  
   human.dat <- read.csv('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_data/human_raw_data.csv', header = T) %>% mutate(d_type = "human") %>% unique()
-  
-  all.dat <- rbind(model.dat, human.dat)
 }

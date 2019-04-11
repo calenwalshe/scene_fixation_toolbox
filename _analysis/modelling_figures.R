@@ -27,7 +27,7 @@ ggplot(model.human.mean.binned, aes(x = condition, y = duration, colour = d_type
 
 # Distribution by number of cancellations.
 ggplot(all_events_nested, aes(x = fixation_duration)) + 
-  geom_histogram(aes(x = fixation_duration, y = ..count../sum(..count..), position = "dodge",colour = as.factor(N_cancel), fill = as.factor(N_cancel)), alpha = .2) +
+  geom_histogram(aes(x = fixation_duration, y = ..count../sum(..count..), position = "stack",colour = as.factor(N_cancel), fill = as.factor(N_cancel)), alpha = .2) +
   geom_freqpoly(data = all_events_nested %>% select(experiment, critical_fix_type, fixation_duration), aes(y = ..count../sum(..count..))) +
   facet_grid(critical_fix_type~experiment)
 #####
@@ -134,11 +134,44 @@ all_events_nested %>% filter(N_cancel < 5) %>%
   summarize(f.mean = mean(fixation_duration), f.sd = sd(fixation_duration), f.sk = skewness(fixation_duration)) %>%
   ggplot(., aes(x = f.mean, y = f.sd, colour = as.factor(N_cancel), shape = as.factor(critical_fix_type))) + geom_point() + facet_grid(~experiment)
 
-# Visualize cancellation bumps compared.
-all_events_nested %>% filter(N_cancel < 5) %>% 
-  group_by(experiment, critical_fix_type, N_cancel) %>% 
-  ggplot(., aes(x = fixation_duration)) + 
-  geom_histogram(aes(x = fixation_duration, y = ..count../sum(..count..), type = (as.factor(N_cancel)), position = "stack",colour = as.factor(critical_fix_type), fill = as.factor(critical_fix_type)), alpha = .2) + 
-  facet_grid(~N_cancel) +
+# A figure with the strengh of manipulations
+
+cancel_lobes <- all_events_nested %>% mutate(luminance_delta = ifelse(experiment == 1 & critical_fix_type == "NOCHANGE", 0, ifelse(
+  experiment == 1 & critical_fix_type == "UP", 20,
+  ifelse(
+    experiment == 1 & critical_fix_type == "DOWN", -20,
+    ifelse(experiment == 2 & critical_fix_type == "NOCHANGE", 0,
+           ifelse(experiment == 2 & critical_fix_type == "DOWN", -40,
+                  ifelse(experiment == 2 & critical_fix_type == "UP", 40, -1))))))) %>%
+  filter(N_cancel < 3) 
+  #mutate(luminance_delta = as.factor(luminance_delta))
+
+cancel_lobes %>% group_by(luminance_delta, N_cancel) %>%
+  mutate(bins = cut(fixation_duration, breaks = seq(0, 1200, 30), labels = seq(15, 1185, 30), right = F)) %>%
+  group_by(luminance_delta, N_cancel, bins) %>%
+  tally() %>%
+  group_by(luminance_delta) %>%
+  mutate(density = n / sum(n), bins = as.numeric(as.character(bins))) %>%
+  ggplot(., aes(x = bins, y = density, fill = luminance_delta)) + 
+  geom_bar(position = position_fill(), stat = "identity")
+
+cancel_lobes %>% group_by(luminance_delta, N_cancel) %>%
+  mutate(bins = cut(fixation_duration, breaks = seq(0, 1200, 30), labels = seq(15, 1185, 30), right = F)) %>%
+  group_by(luminance_delta, N_cancel, bins) %>%
+  tally() %>%
+  group_by(luminance_delta) %>%
+  mutate(density = n / sum(n), bins = as.numeric(as.character(bins))) %>%
+  ggplot(., aes(x = bins, y = density, fill = luminance_delta)) + 
+  geom_bar(position = position_fill(), stat = "identity") +
+  facet_grid(~N_cancel) + 
   theme(aspect.ratio = 1)
+
+# Visualize cancellation bumps compared.
+cancel_lobes %>%
+  group_by(N_cancel, luminance_delta) %>%
+  summarize(mean.fd = mean(fixation_duration), std.fd = sd(fixation_duration)) %>%
+  gather(type, val, mean.fd, std.fd) %>%
+  ggplot(., aes(x= luminance_delta, y = val, colour = type, shape = factor(N_cancel))) + geom_point()
+  
+
 

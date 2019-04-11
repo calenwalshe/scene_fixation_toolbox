@@ -7,7 +7,7 @@
 
 %Fit Baseline
 baseline_fits_exp1 = [];
-for i = 1:1
+for i = 1:5
     timer_x0  = randi([100,400]);
     labile_x0 = randi([50, timer_x0]);
     params    = [10 [timer_x0 labile_x0 80 30 20], [1,1,1,1] 1,1];
@@ -31,19 +31,19 @@ settings_exp1 = lib.rwexperimentset('ExperimentName', 'visionresearch_exp1',...
     'ModelParams', WalkParams_exp1,...
     'EventDrivenChangeFcn', @projects.vision_research.VisionResearchParameterAdjustFcn, 'FitnessFcn',...
     @lib.VRMaxLik_baseline, 'NumberSubjects', 1, 'InitializeRandomWalkParameters',...
-    @projects.vision_research.VRcreateRandomWalkParams, 'PlotFcn', @vis.save_plot);
+    @projects.vision_research.VRcreateRandomWalkParams);
 
 f_exp1 = ucm(settings_exp1);
 
 %Fit Adaptation
 adaptation_fits_exp1 = [];
-for i = 1:1
+for i = 1:3
     %params   = [10 [best_baseline_exp1(2:6)], [.1 + .9 * rand,1 + rand, .1 + .9 * rand, .1 + .9 * rand], 40, 10000];
     %LB        = [10, best_baseline_exp1(2:6), [.1, 1, .1, .1], 40,  10000];
     %UB        = [10, best_baseline_exp1(2:6), [1, 2, 1, 1], 40, 10000];
     params   = [10, [best_baseline_exp1(2:6)], [.1 + .9 * rand,1, .1 + .9 * rand, .1 + .9 * rand], 100, 400];
     LB        = [5, [100, 50  70  30 20], [.1, 1, .1, .1], 40,  200];
-    UB        = [20, [400, 300 90 30 20], [1, 1, 1, 1], 200, 2000];    
+    UB        = [20, [400, 300 90 30 20], [1, 2, 1, 1], 200, 2000];    
     [X_adaptation_exp1,FVAL] = bads(@optim.vision_research.objVR_exp1_adaptation,params,LB,UB);
     adaptation_fits_exp1     = [adaptation_fits_exp1; [X_adaptation_exp1, FVAL]];
 end

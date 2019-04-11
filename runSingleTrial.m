@@ -124,9 +124,10 @@ while RandomWalkParameters.simulateOn
     
     RandomWalkParameters.globalRate                 = sum(RandomWalkParameters.rates .* RandomWalkParameters.bWalkActive);
     t               = t + ((-1/RandomWalkParameters.globalRate*log(1-rand)));
+    
     RandomWalkParameters.transitionProbability      = ...
         RandomWalkParameters.rates .* RandomWalkParameters.bWalkActive ./ RandomWalkParameters.globalRate;
-    
+        
     RandomWalkParameters.selectWalk                 = randsample(5, 1, true, RandomWalkParameters.transitionProbability);
     
     RandomWalkParameters.activeWalkLevel(RandomWalkParameters.selectWalk) = ...

@@ -7,7 +7,7 @@
 
 %Fit Baseline
 baseline_fits_exp2 = [];
-for i = 1:1
+for i = 1:5
     timer_x0  = randi([100,400]);
     labile_x0 = randi([50, timer_x0]);
     params    = [10 [timer_x0 labile_x0 80 30 20], [1,1,1,1] 1,1];
@@ -37,7 +37,7 @@ f_exp2 = ucm(settings_exp2);
 
 %Fit Adaptation
 adaptation_fits_exp2 = [];
-for i = 1:1
+for i = 1:3
     %params   = [10 [best_baseline_exp2(2:6)], [.1 + .9 * rand,1 + rand, .1 + .9 * rand, .1 + .9 * rand], 40, 10000];
     %LB        = [10, best_baseline_exp2(2:6), [.1, 1, .1, .1], 40,  10000];
     %UB        = [10, best_baseline_exp2(2:6), [1, 2, 1, 1], 40, 10000];

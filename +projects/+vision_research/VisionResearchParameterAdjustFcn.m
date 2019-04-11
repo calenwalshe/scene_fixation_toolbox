@@ -70,8 +70,8 @@ if ~isempty(singleStepEvents) && any(singleStepEvents(:,1) == eventKeys.saccadeS
         eventCounters.shiftInProgress = 0;
         eventCounters.shiftVals           = eventCounters.shiftVals(1:end ~= eventCounters.idx);
         RandomWalkParameters.rates = RandomWalkParameters.rates;
-        saccIdx = find(globalEvents(1:end,1) == eventKeys.saccadeEndNum,1,'last');        
-        fixDur  = t - globalEvents(saccIdx, 7);
+        saccIdx = find(globalEvents(1:end,1) == eventKeys.saccadeEndNum,1,'last');
+        fixDur  = t - globalEvents(saccIdx, 12);
         
         if eventCounters.direction == 1
             changeEvents = [changeEvents; {[eventKeys.NOCHANGE_DUR, fixDur, t, trialNr]}];

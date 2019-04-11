@@ -1,7 +1,11 @@
 import_scene_exp <- function(experiment_nr = 2) {
   library(dplyr)
   library(R.matlab)
+  library(purrr)
+  library(tidyr)
   
+  
+  map <- purrr::map
   # Import the fixation duration data
   data <-
     readMat(paste0('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_export/visionresearch_exp', experiment_nr, '_exported.mat'))

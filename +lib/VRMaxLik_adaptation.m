@@ -13,7 +13,6 @@ if isempty(events)
 end
 event_objects  = events(:,1);
 %
-
 % Extract Fixation Durations %
 fix_dur_idx  = cellfun(@(x) any(x(1) == [eventKeys.NOCHANGE_DUR,eventKeys.UP_DUR,eventKeys.DOWN_DUR]), event_objects);
 
@@ -49,5 +48,4 @@ dataDOWN_P   = dataDOWN_bin/sum(dataDOWN_bin);
 NLL = -sum(h_data_nochange .* log(dataNOCHANGE_P)) + ... 
     -sum(h_data_up .* log(dataUP_P)) + ...
 -sum(h_data_down .* log(dataDOWN_P));
-
 end

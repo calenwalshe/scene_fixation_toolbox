@@ -1,6 +1,6 @@
-function f = objVR_exp1_adaptation(x)
+function f = objVR_exp1_adaptation(x)    
     WalkRate   = x(2:6);
-
+    
     WalkParams_exp1 = x(7:end);
     %WalkParams_exp1 = [x((1 + n_rate_params + n_adj_params + 1):(end - n_stage_params)), x(end-1:end)];    
     nWalk = x(1);
