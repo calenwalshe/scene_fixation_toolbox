@@ -54,5 +54,4 @@ dataDOWN_P   = dataDOWN_bin/sum(dataDOWN_bin);
 
 NLL = -sum(h_data_nochange .* log(dataNOCHANGE_P));
 
-display(NLL)
 end

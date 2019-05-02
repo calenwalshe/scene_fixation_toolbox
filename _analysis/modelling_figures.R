@@ -1,4 +1,5 @@
 library(moments)
+library(kable)
 
 ###
 # Comparison between human and model
@@ -25,10 +26,18 @@ model.human.mean.binned <- model.human %>%
 ggplot(model.human.mean.binned, aes(x = condition, y = duration, colour = d_type)) + geom_point() + facet_grid(~experiment)
 ##
 
+## Correlation ##
+model.human %>% ggplot(., aes(x = human, y = model, linetype = as.factor(experiment),colour = as.factor(condition))) + geom_point() + geom_smooth(data = model.human, aes(x = human, y = model), method = "lm", inherit.aes = FALSE)
+
+model.human %>% group_by(condition, experiment) %>% summarize(correlation = cor(human, model))
+##
+
 # Distribution by number of cancellations.
-ggplot(all_events_nested, aes(x = fixation_duration)) + 
+dat.1 <- all_events_nested %>% filter(fixation_duration < quantile(fixation_duration, .99))
+
+ggplot(dat.1, aes(x = fixation_duration)) + 
   geom_histogram(aes(x = fixation_duration, y = ..count../sum(..count..), position = "stack",colour = as.factor(N_cancel), fill = as.factor(N_cancel)), alpha = .2) +
-  geom_freqpoly(data = all_events_nested %>% select(experiment, critical_fix_type, fixation_duration), aes(y = ..count../sum(..count..))) +
+  geom_freqpoly(data = dat.1 %>% select(experiment, critical_fix_type, fixation_duration), aes(y = ..count../sum(..count..))) +
   facet_grid(critical_fix_type~experiment)
 #####
 
@@ -66,7 +75,7 @@ all_events_nested %>%
   facet_grid(~experiment)
 #
 
-# Probability of cancellation by timer position
+# Probability of cancellation by timer and labile position
 all_events_nested %>%
   group_by(experiment, critical_fix_type) %>%
   filter(labile.on == 1, nonlabile.on == 0, motor.on == 0, saccade.on == 0) %>%
@@ -74,11 +83,26 @@ all_events_nested %>%
   filter(n() > 30) %>% 
   summarize(p_cancel = sum(N_cancel > 0)/n()) %>%
   ggplot(.,
-         aes(x = timer.p, y = p_cancel, colour = critical_fix_type)) + 
+         aes(x = timer.p, y = p_cancel, colour = critical_fix_type, linetype = as.factor(experiment), shape = critical_fix_type)) + 
   geom_point() +
-  facet_wrap(labile.p~experiment) +
+  stat_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~labile.p) +
   theme(aspect.ratio = 1)
  #
+
+# Probability of cancellation by timer position
+all_events_nested %>%
+  group_by(experiment, critical_fix_type) %>%
+  filter(labile.on == 1, nonlabile.on == 0, motor.on == 0, saccade.on == 0) %>%
+  group_by(experiment, critical_fix_type, timer.p) %>%
+  filter(n() > 30) %>% 
+  summarize(p_cancel = sum(N_cancel > 0)/n()) %>%
+  ggplot(.,
+         aes(x = timer.p, y = p_cancel, colour = critical_fix_type, linetype = as.factor(experiment), shape = critical_fix_type)) + 
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE) +
+  theme(aspect.ratio = 1)
+##
 
 # Fixation duration by timer and lablile start position
 all_events_nested %>%
@@ -110,6 +134,9 @@ all_events_nested %>%
   filter(n() > 30) %>% 
   summarize(cancel.avg = n()) %>%
   ggplot(., aes(x = N_cancel, cancel.avg, colour = critical_fix_type, fill = critical_fix_type)) + geom_bar(stat = "identity", position = "dodge") + facet_grid(~experiment)
+
+all_events_nested %>% filter(N_cancel > 0) %>% group_by(experiment) %>% summarize(n.trial = n())
+
 #
 
 # How much does UP and DOWN extend fixation durations from baseline? #

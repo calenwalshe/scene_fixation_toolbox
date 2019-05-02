@@ -37,13 +37,13 @@ f_exp2 = ucm(settings_exp2);
 
 %Fit Adaptation
 adaptation_fits_exp2 = [];
-for i = 1:3
+for i = 1:5
     %params   = [10 [best_baseline_exp2(2:6)], [.1 + .9 * rand,1 + rand, .1 + .9 * rand, .1 + .9 * rand], 40, 10000];
     %LB        = [10, best_baseline_exp2(2:6), [.1, 1, .1, .1], 40,  10000];
     %UB        = [10, best_baseline_exp2(2:6), [1, 2, 1, 1], 40, 10000];
     params   = [10, [best_baseline_exp2(2:6)], [.1 + .9 * rand,1, .1 + .9 * rand, .1 + .9 * rand], 100, 400];
     LB        = [5, [100, 50  70  30 20], [.1, 1, .1, .1], 40,  200];
-    UB        = [20, [400, 300 90 30 20], [1, 1, 1, 1], 200, 2000];    
+    UB        = [20, [400, 300 90 30 20], [1, 2, 1, 1], 200, 2000];    
     [X_adaptation_exp2,FVAL] = bads(@optim.vision_research.objVR_exp2_adaptation,params,LB,UB);
     adaptation_fits_exp2     = [adaptation_fits_exp2; [X_adaptation_exp2, FVAL]];
 end

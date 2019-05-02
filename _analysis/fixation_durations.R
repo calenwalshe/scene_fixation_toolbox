@@ -29,7 +29,9 @@ get_binned_fixations <- function() {
   library(purrr)
   source('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/import_matlab.R')
   
-  exp.dat <- mclapply(1:2, FUN = function(x) import_scene_exp(x), mc.cores = 2)
+  load('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_data/all_data.rdata')
+  
+  exp.dat <- all_data
   
   f <- function(x) {
     human.dat         <- x$human.dat %>%
@@ -57,7 +59,7 @@ get_binned_fixations <- function() {
       filter(duration < 2000) %>%
       summarize(bin = list(hist(
         duration,
-        breaks = seq(0, 2000, 30),
+        breaks = seq(0, 2030, 30),
         right = F,
         plot = T
       )))
