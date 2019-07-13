@@ -15,8 +15,8 @@ if ~isempty(singleStepEvents) && any(singleStepEvents(:,1) == eventKeys.saccadeE
         eventCounters.shiftPendingTime    = t + RandomWalkParameters.EB_lag;
         eventCounters.surpriseStart       = t;
         eventCounters.surpriseEnd         = eventCounters.surpriseStart + RandomWalkParameters.surprise_offset;
-        eventCounters.encodingStart       = t + 200;
-        eventCounters.encodingEnd         = eventCounters.encodingStart + RandomWalkParameters.encoding_offset;
+        eventCounters.encodingStart       = eventCounters.surpriseEnd + RandomWalkParameters.encoding_offset;
+        eventCounters.encodingEnd         = Inf; %eventCounters.encodingStart + RandomWalkParameters.encoding_offset;
         eventCounters.idx                 = randi(length(eventCounters.shiftVals));
         changeVal                         = eventCounters.shiftVals(eventCounters.idx);
 

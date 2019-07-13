@@ -37,7 +37,7 @@ dataDOWN       = simulationData(simulationData(1:end,1) == DOWNkey,2);
 dataUP         = simulationData(simulationData(1:end,1) == UPkey,2);
 dataNOCHANGE   = simulationData(simulationData(1:end,1) == NOCHANGEkey,2);
 
-edges = 0:30:1200;
+edges = 0:60:1200;
 
 dataNOCHANGE_bin  = histc(dataNOCHANGE, edges) + 1;
 dataNOCHANGE_bin  = dataNOCHANGE_bin(1:(end-1));

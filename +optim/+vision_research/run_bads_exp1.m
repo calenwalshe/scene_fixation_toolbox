@@ -13,7 +13,7 @@ for i = 1:5
     params    = [10 [timer_x0 labile_x0 80 30 20], [1,1,1,1] 1,1];
 
     LB        = [5, [100, 50  80  30 20], [1 1 1 1], 1,  1];
-    UB        = [20, [400, 300 80 30 20], [1 1 1 1], 1, 1];
+    UB        = [20, [400, 400 80 30 20], [1 1 1 1], 1, 1];
     [X_baseline_exp1,FVAL] = bads(@optim.vision_research.objVR_exp1_baseline,params,LB,UB);
     baseline_fits_exp1 = [baseline_fits_exp1; [X_baseline_exp1, FVAL]];
 end
@@ -26,7 +26,7 @@ best_baseline_exp1 = baseline_fits_exp1(I,1:end-1); % minimum -LL
 WalkRate   = best_baseline_exp1(2:6);
 WalkParams_exp1 = best_baseline_exp1(7:end);
 settings_exp1 = lib.rwexperimentset('ExperimentName', 'visionresearch_exp1',...
-    'humanDataPath', '_data/h_fixdur_exp1.mat', 'NumberTrials', 10000,...
+    'humanDataPath', '_data/h_fixdur_exp1.mat', 'NumberTrials', 100,...
     'NumberStates', round([best_baseline_exp1(1), repmat(round(best_baseline_exp1(1)), 1,4)]), 'WalkRate', WalkRate,...
     'ModelParams', WalkParams_exp1,...
     'EventDrivenChangeFcn', @projects.vision_research.VisionResearchParameterAdjustFcn, 'FitnessFcn',...
@@ -35,15 +35,22 @@ settings_exp1 = lib.rwexperimentset('ExperimentName', 'visionresearch_exp1',...
 
 f_exp1 = ucm(settings_exp1);
 
+
+%Use old fit for baseline
+%load('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_export/settings_exp1.mat');
+
+%tmp                 = settings_exp1.WalkRate;
+%best_baseline_exp1  = [-1, tmp];
+
 %Fit Adaptation
 adaptation_fits_exp1 = [];
 for i = 1:5
     %params   = [10 [best_baseline_exp1(2:6)], [.1 + .9 * rand,1 + rand, .1 + .9 * rand, .1 + .9 * rand], 40, 10000];
     %LB        = [10, best_baseline_exp1(2:6), [.1, 1, .1, .1], 40,  10000];
     %UB        = [10, best_baseline_exp1(2:6), [1, 2, 1, 1], 40, 10000];
-    params   = [10, [best_baseline_exp1(2:6)], [.1 + .9 * rand,1, .1 + .9 * rand, .1 + .9 * rand], 100, 400];
-    LB        = [5, [100, 50  70  30 20], [.1, 1, .1, .1], 40,  200];
-    UB        = [20, [400, 300 90 30 20], [1, 1, 1, 1], 200, 2000];    
+    params   = [10, [best_baseline_exp1(2:6)], [.1 + .9 * rand,1, .1 + .9 * rand, .1 + .9 * rand], 0, 0];
+    LB        = [5, [100, 50  70  30 20], [.1, 1, .1, .1], 0,  0];
+    UB        = [20, [400, 300 90 30 20], [1, 1, 1, 1], 200, 500];    
     [X_adaptation_exp1,FVAL] = bads(@optim.vision_research.objVR_exp1_adaptation,params,LB,UB);
     adaptation_fits_exp1     = [adaptation_fits_exp1; [X_adaptation_exp1, FVAL]];
 end
@@ -64,3 +71,24 @@ settings_exp1 = lib.rwexperimentset('ExperimentName', 'visionresearch_exp1',...
 
 f_exp1 = ucm(settings_exp1);
 
+save('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_export/settings_exp1.mat', 'settings_exp1')
+
+% Counterfactuals
+
+% No surprise
+settings_exp1_no_surprise = settings_exp1;
+settings_exp1_no_surprise.ModelParams([1,2]) = 1; % 
+settings_exp1_no_surprise.ExperimentName = 'visionresearch_exp1_nosurprise';
+
+
+f_exp1 = ucm(settings_exp1_no_surprise);
+
+save('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_export/settings_exp1_no_surprise.mat', 'settings_exp1_no_surprise')
+
+% No encoding
+settings_exp1_no_encoding = settings_exp1;
+settings_exp1_no_encoding.ModelParams([3,4]) = 1; % 
+settings_exp1_no_encoding.ExperimentName = 'visionresearch_exp1_noencoding';
+f_exp1 = ucm(settings_exp1_no_encoding);
+
+save('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_export/settings_exp1_no_encoding.mat', 'settings_exp1_no_encoding')
