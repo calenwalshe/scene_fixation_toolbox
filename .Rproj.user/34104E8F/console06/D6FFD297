@@ -1,0 +1,84 @@
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ [K]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ cp ~!/D[K[K[K/~![K[K[K[K~/Dropbox/Calen/Dropbox/scene_fi[K[K[K[K[K[K[K[Kexp1[K[K[K[Ke[K
+Display all 894 possibilities? (y or n)
+]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ cp ~/Dropbox/Calen/Dropbox/settings_exp1_best.mat ./
+_analysis/                  .gitignore                  .RData                      scene_fixation_model.Rproj
+bads/                       +lib/                       README.md                   scene_fix_fig.png
+_data/                      +model_testing/             .Rhistory                   ucm.m
+_export/                    +optim/                     .Rproj.user/                +vis/
+.git/                       +projects/                  runSingleTrial.m            
+]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ cp ~/Dropbox/Calen/Dropbox/settings_exp1_best.mat ./+[K_data/
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ ls
+[0m[01;34m_analysis[0m  [01;34m_data[0m    [01;34m+lib[0m            [01;34m+optim[0m     README.md         scene_fixation_model.Rproj  ucm.m
+[01;34mbads[0m       [01;34m_export[0m  [01;34m+model_testing[0m  [01;34m+projects[0m  runSingleTrial.m  [01;35mscene_fix_fig.png[0m           [01;34m+vis[0m
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ cp ./_data/[K^C
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ mv ./_data/ _analysis/_data/
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ d[Ki[Kcd _data
+bash: cd: _data: No such file or directory
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ ls
+[0m[01;34m_analysis[0m  [01;34m_export[0m  [01;34m+model_testing[0m  [01;34m+projects[0m  runSingleTrial.m            [01;35mscene_fix_fig.png[0m  [01;34m+vis[0m
+[01;34mbads[0m       [01;34m+lib[0m     [01;34m+optim[0m          README.md  scene_fixation_model.Rproj  ucm.m
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ cd _analysis/
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[00m$ ls
+cancellation_analysis.R  [0m[01;34m_data[0m  fixation_durations.R  import_matlab.R
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[00m$ cd _data
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ ls
+[0m[01;34m_data[0m
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ cd _data
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data/_data[00m$ ls
+h_fixdur_exp1.mat  h_fixdur_exp2.mat  settings_exp1_best.mat
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data/_data[00m$ mv settings_exp1_best.mat  [K../
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data/_data[00m$ mv [K[K[Kcd ..
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ ls
+[0m[01;34m_data[0m  settings_exp1_best.mat
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ mv _data ../
+mv: cannot move '_data' to '../_data': Directory not empty
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ cd [K[K[Kmv _data ../data[K[K[K[K_data
+mv: '_data' and '../_data/_data' are the same file
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ ls -al
+total 32
+drwxr-xr-x 3 calen calen 4096 Jun  1 10:29 [0m[01;34m.[0m
+drwxrwxr-x 3 calen calen 4096 Jun  1 10:27 [01;34m..[0m
+drwxrwxr-x 2 calen calen 4096 Jun  1 10:29 [01;34m_data[0m
+-rw-r--r-- 1 calen calen  842 Jun  1 10:28 settings_exp1_best.mat
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ mv _[K[K[K[Kcd ..
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[00m$ ls
+cancellation_analysis.R  [0m[01;34m_data[0m  fixation_durations.R  import_matlab.R
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[00m$ cd _data
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ ls
+[0m[01;34m_data[0m  settings_exp1_best.mat
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ i[Kcd [K[K[Kcd ..
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[00m$ ls
+cancellation_analysis.R  [0m[01;34m_data[0m  fixation_durations.R  import_matlab.R
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[00m$ cd ..
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ ls
+[0m[01;34m_analysis[0m  [01;34m_export[0m  [01;34m+model_testing[0m  [01;34m+projects[0m  runSingleTrial.m            [01;35mscene_fix_fig.png[0m  [01;34m+vis[0m
+[01;34mbads[0m       [01;34m+lib[0m     [01;34m+optim[0m          README.md  scene_fixation_model.Rproj  ucm.m
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ cd _dta[K[K[Kata
+bash: cd: _ata: No such file or directory
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ cd +d[K[K_data
+bash: cd: _data: No such file or directory
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ cd _analysis/
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[00m$ ls
+cancellation_analysis.R  [0m[01;34m_data[0m  fixation_durations.R  import_matlab.R
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[00m$ cd _data
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ ls
+[0m[01;34m_data[0m  settings_exp1_best.mat
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ mv _data ../../_data
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ cd ../../
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ ls
+[0m[01;34m_analysis[0m  [01;34m_data[0m    [01;34m+lib[0m            [01;34m+optim[0m     README.md         scene_fixation_model.Rproj  ucm.m
+[01;34mbads[0m       [01;34m_export[0m  [01;34m+model_testing[0m  [01;34m+projects[0m  runSingleTrial.m  [01;35mscene_fix_fig.png[0m           [01;34m+vis[0m
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ cd +_[K[K_data
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_data[00m$ ls
+h_fixdur_exp1.mat  h_fixdur_exp2.mat
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_data[00m$ o[Kcd ..
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ ls
+[0m[01;34m_analysis[0m  [01;34m_data[0m    [01;34m+lib[0m            [01;34m+optim[0m     README.md         scene_fixation_model.Rproj  ucm.m
+[01;34mbads[0m       [01;34m_export[0m  [01;34m+model_testing[0m  [01;34m+projects[0m  runSingleTrial.m  [01;35mscene_fix_fig.png[0m           [01;34m+vis[0m
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model[00m$ cd _analysis/
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[00m$ ls
+cancellation_analysis.R  [0m[01;34m_data[0m  fixation_durations.R  import_matlab.R
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis[00m$ cd _data/
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ ls
+settings_exp1_best.mat
+]0;/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data]0;calen@uni: /mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[01;32mcalen@uni[00m:[01;34m/mnt/home/calen/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_data[00m$ 

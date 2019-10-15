@@ -1,0 +1,63 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+model.human <- get_binned_fixations()
+model.human.raw <- get_raw_fixations()
+```
+
+```{r}
+model.human.gather <- model.human %>% gather(key = type, value = p, model, human)
+ggplot(
+  model.human.gather,
+  aes(
+    x = duration,
+    y = p,
+    colour = condition,
+    linetype = type
+  )
+) + 
+  geom_point() + 
+  geom_line() +
+  facet_grid(experiment~condition)
+
+ggplot(model.human,
+       aes(
+         x = model,
+         y = human,
+         colour = condition,
+         group = condition
+       )) + geom_point() + stat_smooth(method = "lm") +
+  facet_grid(~experiment)
+
+model.human.norm <- model.human %>% group_by(condition, experiment) %>% mutate(human = (human - mean(human)) / sd(human), model = (model - mean(model)) / sd(model))
+
+ggplot(model.human.norm,
+       aes(
+         x = model,
+         y = human,
+         colour = condition,
+         group = condition
+       )) + 
+  geom_point() + 
+  stat_smooth(method = "lm") +
+  facet_grid(~experiment)
+
+model.human.mean <- model.human.raw %>% 
+  group_by(condition, experiment, d_type) %>%
+  filter(!is.na(duration)) %>%
+  summarize(se = sd(duration)/sqrt(n()), duration = mean(duration), ci = 1.96*se)
+
+ggplot(model.human.mean, aes(x = condition, y = duration, colour = d_type)) + geom_point() + facet_grid(~experiment) + geom_errorbar(aes(ymin = duration - ci, ymax = duration + ci))
+
+model.human.mean.binned <- model.human %>% 
+  group_by(condition, experiment) %>%
+  filter(!is.na(duration)) %>%
+  mutate(human = duration * human, model = duration * model) %>%
+  summarize(human = sum(human), model = sum(model)) %>%
+  gather(d_type, duration, human, model)
+
+ggplot(model.human.mean.binned, aes(x = condition, y = duration, colour = d_type)) + geom_point() + facet_grid(~experiment)
+```

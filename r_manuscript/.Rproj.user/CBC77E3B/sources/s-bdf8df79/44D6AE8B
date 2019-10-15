@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1556911606646.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "44D6AE8B",
+    "lastKnownWriteTime" : 1556913952,
+    "last_content_update" : 1556913968814,
+    "path" : "~/Dropbox/Calen/Work/ucm/r_manuscript/Doc/manuscript.rmd",
+    "project_path" : "Doc/manuscript.rmd",
+    "properties" : {
+        "cursorPosition" : "7,23",
+        "last_setup_crc32" : "bdf8df798647ff1",
+        "scrollLine" : "7"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
