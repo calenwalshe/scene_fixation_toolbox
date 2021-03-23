@@ -26,9 +26,9 @@ model.human.gather.1 <- model.human.gather %>%
   select(-type) %>%
   filter(condition != "Baseline") %>%
   spread(experiment, p) %>% data.frame() %>%
-  mutate(Encoding.Reduced = log2((Encoding.Reduced/human)) * human,
-         Surprise.Reduced = log2((Surprise.Reduced/human)) * human,
-         Full = log2((Full/human))*human) %>%
+  mutate(Encoding.Reduced = log2(Encoding.Reduced / human) * human,
+         Surprise.Reduced = log2(Surprise.Reduced / human) * human,
+         Full = log2(Full/human) * human) %>%
   select(-human) %>%
   gather(type,p, c("Full", "Surprise.Reduced", "Encoding.Reduced"))
 
@@ -44,7 +44,7 @@ timecourse.fig <- ggplot(model.human.gather.1,
   geom_point(size = .75) +
   geom_line(size = .5) +
   facet_grid(experiment_group ~ condition) +
-  guides(linetype = FALSE, colour = FALSE) +
+  guides(linetype = FALSE) +
   scale_x_continuous(breaks = c(seq(0, 1000, 250))) +
   scale_color_manual(labels = c("Full", "Surprise Reduced", "Encoding Reduced"), values = c(colours.fig$value[1:3])) +
   xlab("Fixation Duration") +

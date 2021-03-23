@@ -21,15 +21,13 @@ get_raw_data <- function() {
   model.dat <- do.call(rbind, model.dat) %>% arrange(experiment, trial, timestamp)
 }
 
-get_binned_fixations <- function() {
+get_binned_fixations <- function(all_data) {
   library(ggplot2)
   library(tidyr)
   library(dplyr)
   library(stringr)
   library(purrr)
   source('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/import_matlab.R')
-  
-  load('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_data/all_data.rdata')
   
   exp.dat <- all_data
   
@@ -59,7 +57,7 @@ get_binned_fixations <- function() {
       filter(duration < 2000) %>%
       summarize(bin = list(hist(
         duration,
-        breaks = seq(0, 2030, 30),
+        breaks = seq(0, 2130, 60),
         right = F,
         plot = T
       )))
@@ -84,9 +82,13 @@ get_binned_fixations <- function() {
     
     model.human <-
       rbind(human.dat, model.binned) %>% spread(p, key = group)
+    
+    model.human$experiment <- x$experiment
+    
+    return(model.human)
   }
 
-  dur.exp.dat <- lapply(1:length(exp.dat), FUN = function(x) f(exp.dat[[x]]) %>% mutate(experiment = x))
+  dur.exp.dat <- lapply(1:length(exp.dat), FUN = function(x) f(exp.dat[[x]]))
   
   do.call(rbind, dur.exp.dat)
 }

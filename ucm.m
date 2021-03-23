@@ -22,7 +22,7 @@ RandomWalkParameters      = settings.InitializeRandomWalkParameters(settings);
 eventKeys                 = RandomWalkParameters.eventKeys;
 
 for i = 1:nSubjects
-    parfor k = 1:nTrials
+    for k = 1:nTrials
         singleTrialData           = runSingleTrial(settings, RandomWalkParameters, k);
         
         experimentDataChanges{k, i}      = singleTrialData.globalChanges;

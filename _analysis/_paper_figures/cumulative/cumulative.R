@@ -49,7 +49,3 @@ ggsave(plot = distribution.fig, filename = "~/Dropbox/Calen/Work/ucm/scene_fixat
 
 distribution.fig.guide <- distribution.fig + guides(colour = guide_legend())
 ggsave(plot = distribution.fig.guide, filename = "~/Dropbox/Calen/Work/ucm/scene_fixation_model/_analysis/_paper_figures/cumulative/cumulative_withguide.pdf", width = 4, useDingbats = FALSE)
-
-
-
-

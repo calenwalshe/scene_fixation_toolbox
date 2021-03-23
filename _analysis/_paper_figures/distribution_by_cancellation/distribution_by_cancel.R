@@ -1,5 +1,7 @@
 rm(list = ls())
 
+summarize <- dplyr::summarise
+
 # Distribution by number of cancellations.
 load(file = '~/Dropbox/Calen/Work/ucm/scene_fixation_model/_data/all_events_nested.rdata')
 load(file = '~/Dropbox/Calen/Work/ucm/scene_fixation_model/_data/model.human.rdata')

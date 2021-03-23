@@ -44,6 +44,7 @@ if eventCounters.shiftInProgress == 1 && t > eventCounters.shiftPendingTime
         eventCounters.direction    = 1;
     elseif changeVal == 2
         if (t > eventCounters.surpriseStart) && (t < eventCounters.surpriseEnd)
+            display(RandomWalkParameters.rateChange_up_surprise)
             RandomWalkParameters.rates = RandomWalkParameters.rateChange_up_surprise;
         elseif (t > eventCounters.encodingStart) && (t < eventCounters.encodingEnd)
             RandomWalkParameters.rates = RandomWalkParameters.rateChange_up_encoding;        

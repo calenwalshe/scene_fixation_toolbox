@@ -50,7 +50,7 @@ for i = 1:5
     %UB        = [10, best_baseline_exp1(2:6), [1, 2, 1, 1], 40, 10000];
     params   = [10, [best_baseline_exp1(2:6)], [1 1 1 1], 0, 0];
     LB        = [5, [100, 50  70  30 20], [1 1 1 1], 0,  0];
-    UB        = [20, [400, 300 90 30 20], [1, 1, 1, 1], 0, 0];    
+    UB        = [20, [400, 300 90 30 20], [1 1 1 1], 0, 0];    
     [X_adaptation_exp1,FVAL] = bads(@optim.vision_research.objVR_exp1_adaptation,params,LB,UB);
     adaptation_fits_exp1     = [adaptation_fits_exp1; [X_adaptation_exp1, FVAL]];
 end

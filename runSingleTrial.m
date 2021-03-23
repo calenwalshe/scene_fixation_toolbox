@@ -18,6 +18,8 @@ if ~exist('settings','var') || nargin < 1
     trialNr                                     = 1;        
 end
 
+%fileID = fopen('~/Dropbox/Calen/Dropbox/exp.txt','a');
+
 timerIdx        = 1;
 labileIdx       = 2;
 nonlabileIdx    = 3;
@@ -65,7 +67,6 @@ while RandomWalkParameters.simulateOn
                     RandomWalkParameters.activeWalkLevel(labileIdx)      = 0;
                     
                     cancelCounter = cancelCounter + 1;
-                    %display(cancelCounter);
                 end
                 
                 RandomWalkParameters.bWalkActive(labileIdx)              = 1;
@@ -132,6 +133,10 @@ while RandomWalkParameters.simulateOn
     
     RandomWalkParameters.activeWalkLevel(RandomWalkParameters.selectWalk) = ...
         RandomWalkParameters.activeWalkLevel(RandomWalkParameters.selectWalk) + 1;
+    
+    outputMat = [RandomWalkParameters.activeWalkLevel, RandomWalkParameters.rates, t, trialNr];
+        
+    %fprintf(fileID, [num2str(outputMat), '\n']);
     
 end
 singleTrialData.globalChanges = globalChanges;
