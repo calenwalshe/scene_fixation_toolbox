@@ -5,3 +5,5 @@ _data
 *.Rdata
 *.mat
 *.txt
+*analysis
+*Rproj*
