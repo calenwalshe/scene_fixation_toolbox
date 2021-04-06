@@ -4,8 +4,6 @@ function fitVal = ucm(settings)
 %   simulated based on the parameters provided in the settings.
 %   
 %   Author: R. Calen Walshe The University of Texas (calen.walshe@utexas.edu) (2016)
-
-rng(0)
 nSubjects = settings.NumberSubjects;
 nTrials   = settings.NumberTrials;
 
