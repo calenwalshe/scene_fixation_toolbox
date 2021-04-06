@@ -17,9 +17,6 @@ if ~exist('settings','var') || nargin < 1
     TrialParameters.RandomWalkParameters        = demoCreateRandomWalkParams();
     trialNr                                     = 1;        
 end
-
-%fileID = fopen('~/Dropbox/Calen/Dropbox/exp.txt','a');
-
 timerIdx        = 1;
 labileIdx       = 2;
 nonlabileIdx    = 3;
