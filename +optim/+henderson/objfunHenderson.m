@@ -1,6 +1,4 @@
 function f = objfunHenderson(x)
-%display(x)
-
 x = [x(6), x(1), x(2), x(3), x(4), 98.27,243.69];
 
 settings = lib.rwexperimentset('ExperimentName', 'henderson_up', 'NumberTrials',...
