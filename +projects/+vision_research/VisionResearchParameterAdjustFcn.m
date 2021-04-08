@@ -10,6 +10,7 @@ changeEvents = [];
 eventKeys = RandomWalkParameters.eventKeys;
 if ~isempty(singleStepEvents) && any(singleStepEvents(:,1) == eventKeys.saccadeEndNum)
     eventCounters.nSaccade = eventCounters.nSaccade + 1;        
+    RandomWalkParameters.rates = RandomWalkParameters.baseRates;
     if mod(eventCounters.nSaccade,5) == 0 && eventCounters.shiftInProgress == 0        
         eventCounters.shiftInProgress     = 1;
         eventCounters.shiftPendingTime    = t + RandomWalkParameters.EB_lag;
