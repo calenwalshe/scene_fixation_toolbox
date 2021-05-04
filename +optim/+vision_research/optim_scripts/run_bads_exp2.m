@@ -74,7 +74,7 @@ save('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_export/settings_exp2.mat', 
 % Counterfactuals
 % No surprise
 settings_exp2_no_surprise = settings_exp2;
-settings_exp2_no_surprise.ModelParams([1,2]) = 1; % 
+settings_exp2_no_surprise.ModelParams([1,3]) = 1; % 
 settings_exp2_no_surprise.ExperimentName = 'visionresearch_exp2_nosurprise';
 
 f_exp2 = ucm(settings_exp2_no_surprise);
@@ -83,7 +83,7 @@ save('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_export/settings_exp2_no_sur
 
 % No encoding
 settings_exp2_no_encoding = settings_exp2;
-settings_exp2_no_encoding.ModelParams([3,4]) = 1; % 
+settings_exp2_no_encoding.ModelParams([2,4]) = 1; % 
 settings_exp2_no_encoding.ExperimentName = 'visionresearch_exp2_noencoding';
 f_exp2 = ucm(settings_exp2_no_encoding);
 
