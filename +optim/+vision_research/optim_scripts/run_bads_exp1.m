@@ -1,19 +1,14 @@
 % Run bads
 
-%params = [20 [300 100 100 30 20], [1,1,1,1,1,1,1,1] 100,300];
-
-%LB       = [10, 300, [10  10  30 20], [.1, 1, .1, .1], [.1, 1, .1, .1],  50,  150];
-%UB       = [50, 300, [200 200 30 20], [1,  3,  1, 1],  [1,  3,  1, 1],  100, 300];
-
 %Fit Baseline
 baseline_fits_exp1 = [];
 for i = 1:1
-    timer_x0  = randi([100,400]);
+    timer_x0  = randi([100,300]);
     labile_x0 = randi([50, timer_x0]);
-    params    = [15 [228 180 76 30], [1,1,1,1] 1,1];
+    params    = [10 [timer_x0 labile_x0 80 30 20], [1,1,1,1] 1,1];
 
-    LB        = [15, [228 180 76 30], [1 1 1 1], 1,  1];
-    UB        = [15, [228 180 76 30], [1 1 1 1], 1, 1];
+    LB        = [10, [100, 100  50  30 20], [1 1 1 1], 1, 1];
+    UB        = [30, [300, 250 100 30 20], [1 1 1 1], 1, 1];
     [X_baseline_exp1,FVAL] = bads(@optim.vision_research.objVR_exp1_baseline,params,LB,UB);
     baseline_fits_exp1 = [baseline_fits_exp1; [X_baseline_exp1, FVAL]];
 end
@@ -35,24 +30,12 @@ settings_exp1 = lib.rwexperimentset('ExperimentName', 'visionresearch_exp1',...
 
 f_exp1 = ucm(settings_exp1);
 
-
-%Use old fit for baseline
-load('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_export/settings_exp1.mat');
-
-%tmp                 = settings_exp1.WalkRate;
-%best_baseline_exp1  = [-1, tmp];
-
 %Fit Adaptation
 adaptation_fits_exp1 = [];
 for i = 1:1
-    %params   = [10 [best_baseline_exp1(2:6)], [.1 + .9 * rand,1 + rand, .1 + .9 * rand, .1 + .9 * rand], 40, 10000];
-    %LB        = [10, best_baseline_exp1(2:6), [.1, 1, .1, .1], 40,  10000];
-    %UB        = [10, best_baseline_exp1(2:6), [1, 2, 1, 1], 40, 10000];
-    params   = [14, [226 174 71 30 20], [.1 + .9 * rand,1, .1 + .9 * rand, .1 + .9 * rand], 50, 320];
-    %LB        = [5, [100, 50  70  30 20], [.1, 1, .1, .1], 0,  0];
-    %UB        = [20, [400, 300 90 30 20], [1, 1, 1, 1], 200, 500];    
-    LB        = [14, [226 174 71 30 20], [.1, 1, .1, .1],50, 320];
-    UB        = [14, [226 174 71 30 20], [1, 1, 1, 1], 50, 320];        
+    params   = [14, [best_baseline_exp2(2:6)], [.1 + .9 * rand,1, .1 + .9 * rand, .1 + .9 * rand], 50, 300];
+    LB        = [14, [best_baseline_exp2(2:6)], [.1, 1, .1, .1], 0,  200];
+    UB        = [14, [best_baseline_exp2(2:6)], [1, 1, 1, 1], 100, 400];    
     [X_adaptation_exp1,FVAL] = bads(@optim.vision_research.objVR_exp1_adaptation,params,LB,UB);
     adaptation_fits_exp1     = [adaptation_fits_exp1; [X_adaptation_exp1, FVAL]];
 end
