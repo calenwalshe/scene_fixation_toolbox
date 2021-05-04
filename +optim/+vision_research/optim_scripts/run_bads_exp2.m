@@ -12,8 +12,8 @@ for i = 1:5
     labile_x0 = randi([50, timer_x0]);
     params    = [10 [timer_x0 labile_x0 80 30 20], [1,1,1,1] 1,1];
 
-    LB        = [5, [100, 50  80  30 20], [1 1 1 1], 1, 1];
-    UB        = [20, [400, 400 80 30 20], [1 1 1 1], 1, 1];
+    LB        = [10, [100, 100  50  30 20], [1 1 1 1], 1, 1];
+    UB        = [30, [300, 250 100 30 20], [1 1 1 1], 1, 1];
     [X_baseline_exp2,FVAL] = bads(@optim.vision_research.objVR_exp2_baseline,params,LB,UB);
     baseline_fits_exp2 = [baseline_fits_exp2; [X_baseline_exp2, FVAL]];
 end
@@ -43,12 +43,9 @@ best_baseline_exp2  = [-1, tmp];
 %Fit Adaptation
 adaptation_fits_exp2 = [];
 for i = 1:1
-    %params   = [10 [best_baseline_exp2(2:6)], [.1 + .9 * rand,1 + rand, .1 + .9 * rand, .1 + .9 * rand], 40, 10000];
-    %LB        = [10, best_baseline_exp2(2:6), [.1, 1, .1, .1], 40,  10000];
-    %UB        = [10, best_baseline_exp2(2:6), [1, 2, 1, 1], 40, 10000];
-    params   = [16, [best_baseline_exp2(2:6)], [.1 + .9 * rand,1, .1 + .9 * rand, .1 + .9 * rand], 52, 317];
-    LB        = [16, [100, 50  70  30 20], [.1, 1, .1, .1], 52,  317];
-    UB        = [16, [400, 300 90 30 20], [1, 1, 1, 1], 52, 317];    
+    params   = [16, [best_baseline_exp2(2:6)], [.1 + .9 * rand,1, .1 + .9 * rand, .1 + .9 * rand], 50, 300];
+    LB        = [16, [best_baseline_exp2(2:6)], [.1, 1, .1, .1], 0,  200];
+    UB        = [16, [best_baseline_exp2(2:6)], [1, 1, 1, 1], 100, 400];    
     [X_adaptation_exp2,FVAL] = bads(@optim.vision_research.objVR_exp2_adaptation,params,LB,UB);
     adaptation_fits_exp2     = [adaptation_fits_exp2; [X_adaptation_exp2, FVAL]];
 end
@@ -56,7 +53,7 @@ end
 [Y, I]        = min(adaptation_fits_exp2(:,end));
 best_adaptation_exp2 = adaptation_fits_exp2(I,1:end-1); % minimum -LL
 % Visualize Fit
-%Experiment 1
+%Experiment 2
 WalkRate   = best_adaptation_exp2(2:6);        
 WalkParams_exp2 = best_adaptation_exp2(7:end);
 settings_exp2 = lib.rwexperimentset('ExperimentName', 'visionresearch_exp2',...
