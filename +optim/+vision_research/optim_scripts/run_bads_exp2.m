@@ -1,10 +1,5 @@
 % Run bads
 
-%params = [20 [300 100 100 30 20], [1,1,1,1,1,1,1,1] 100,300];
-
-%LB       = [10, 300, [10  10  30 20], [.1, 1, .1, .1], [.1, 1, .1, .1],  50,  150];
-%UB       = [50, 300, [200 200 30 20], [1,  3,  1, 1],  [1,  3,  1, 1],  100, 300];
-
 %Fit Baseline
 baseline_fits_exp2 = [];
 for i = 1:5
@@ -34,11 +29,6 @@ settings_exp2 = lib.rwexperimentset('ExperimentName', 'visionresearch_exp2',...
     @projects.vision_research.VRcreateRandomWalkParams, 'PlotFcn', @vis.save_plot);
 
 f_exp2 = ucm(settings_exp2);
-
-load('~/Dropbox/Calen/Work/ucm/scene_fixation_model/_export/settings_exp2.mat');
-
-tmp                 = settings_exp2.WalkRate;
-best_baseline_exp2  = [-1, tmp];
 
 %Fit Adaptation
 adaptation_fits_exp2 = [];
