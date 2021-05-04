@@ -8,7 +8,7 @@
 %Fit Baseline
 baseline_fits_exp2 = [];
 for i = 1:5
-    timer_x0  = randi([100,400]);
+    timer_x0  = randi([100,300]);
     labile_x0 = randi([50, timer_x0]);
     params    = [10 [timer_x0 labile_x0 80 30 20], [1,1,1,1] 1,1];
 
