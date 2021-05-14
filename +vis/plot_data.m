@@ -41,5 +41,14 @@ dataDOWN_bin = histc(dataDOWN, edges) + 1;
 dataDOWN_bin = dataDOWN_bin(1:(end-1));
 dataDOWN_P   = dataDOWN_bin/sum(dataDOWN_bin);
 
-keyboard
+figure;subplot(1,3,1);axis square
+plot(30:60:1170, dataNOCHANGE_P);hold on;plot(30:60:1170, h_data_nochange);axis square
+
+hold off
+subplot(1,3,2);axis square
+plot(30:60:1170, dataUP_P);hold on;plot(30:60:1170, h_data_up);axis square
+
+hold off
+subplot(1,3,3);axis square
+plot(30:60:1170, dataDOWN_P);hold on;plot(30:60:1170, h_data_down);axis square
 end
