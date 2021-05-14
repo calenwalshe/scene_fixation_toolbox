@@ -1,10 +1,6 @@
-function NLL = VRMaxLik_adaptation(settings, eventKeys, experimentData, humanData)
-%% fitVal = MaxLik(settings, eventKeys, humanData)
-% Description: This function will give the log-likelihood of the model
-% given the data that human data. The aim is to search for model parameters
-% that maximize the log-likelihood.
+function VRMaxLik_adaptation(settings, eventKeys, experimentData, humanData)
+%% Plot some data
 
-% Format Data %
 events         = vertcat(experimentData{:});
 
 if isempty(events)
@@ -45,7 +41,5 @@ dataDOWN_bin = histc(dataDOWN, edges) + 1;
 dataDOWN_bin = dataDOWN_bin(1:(end-1));
 dataDOWN_P   = dataDOWN_bin/sum(dataDOWN_bin);
 
-NLL = -sum(h_data_nochange .* log(dataNOCHANGE_P)) + ... 
-    -sum(h_data_up .* log(dataUP_P)) + ...
--sum(h_data_down .* log(dataDOWN_P));
+keyboard
 end
