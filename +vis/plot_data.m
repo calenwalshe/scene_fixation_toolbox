@@ -51,4 +51,5 @@ plot(30:60:1170, dataUP_P);hold on;plot(30:60:1170, h_data_up);axis square
 hold off
 subplot(1,3,3);axis square
 plot(30:60:1170, dataDOWN_P);hold on;plot(30:60:1170, h_data_down);axis square
+saveas(gcf,'fixation_durations.png')
 end
