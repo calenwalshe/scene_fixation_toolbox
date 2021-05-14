@@ -2,7 +2,6 @@
 *.htm
 *html
 *.Rdata
-*.mat
 *.txt
 *analysis
 *Rproj*
