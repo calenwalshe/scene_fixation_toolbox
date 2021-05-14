@@ -31,8 +31,7 @@ end
 plotFcn  = settings.PlotFcn;
 
 if ~isempty(plotFcn) 
-    plotFcn(settings, eventKeys, experimentDataChanges)
-    drawnow
+    plotFcn(settings, eventKeys, experimentDataChanges, humanData)
 end
 
 export_all = settings.ExportFcn;
