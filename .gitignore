@@ -1,7 +1,6 @@
 *.html
 *.htm
 *html
-_data
 *.Rdata
 *.mat
 *.txt
