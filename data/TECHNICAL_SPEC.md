@@ -30,7 +30,7 @@ Both are tab-separated text files with the same six columns:
 | `TRIAL_INDEX` | Integer-like value stored as text | Trial index assigned in the event log. |
 | `Condition` | Codes `1`–`4`; `.` also occurs | The supplied archive does not provide a complete codebook for these values. Preserve codes rather than guessing labels. |
 | `CALIBRATION` | `0` or `1` | Calibration-related flag. Rows marked 1 have `Condition` set to `.` in the observed logs. |
-| `CURRENT_MSG_TIME` | Integer-like value stored as text | Message timestamp. Keep separate from time values embedded inside `CURRENT_MSG_TEXT`; the archive does not define a complete conversion/reference scheme. |
+| `CURRENT_MSG_TIME` | Integer-like value stored as text | Trial-relative message timestamp. EyeLink Data Viewer documentation defines this field in milliseconds; it is distinct from the absolute-looking `EL_TIME`/`OS_TIME` values embedded inside `CURRENT_MSG_TEXT`. |
 
 The message stream contains (among others):
 
@@ -45,7 +45,9 @@ The message stream contains (among others):
 
 Exp. 1 also includes `TRIALID`, `SYNCTIME`, `RECCFG`, `GAZE_COORDS`, `THRESHOLDS`, and other setup messages. Both experiments have `VIEW_START_T_GETSECS_MS`, `BLANK_SCREEN`, and `TRIAL_RESULT`: 2,287 of each in Exp. 1 and 1,872 of each in Exp. 2. The `exp2_trial_time.txt` message rows consist of saccade, shift, view-start, blank-screen, and trial-result messages; `Trial_Info` appears in the separate `asymfix_exp2_ind2num.txt` mapping file rather than this log.
 
-These are **message rows, not one row per saccade or fixation**. In particular, `SAC_ON` and `sacstart` appear as separate messages around the same saccade start; do not count both as separate saccades. `SAC_ON` and `SAC_OFF` counts are not equal, so do not assume every marker has a matching partner without defining a pairing and handling incomplete records. The event messages indicate that the recording/acquisition pipeline emitted saccade markers; the archive does not include the continuous sample stream needed to re-detect events or validate them independently.
+These are **message rows, not one row per saccade or fixation**. In particular, `SAC_ON` and `sacstart` appear as separate messages around the same saccade start; do not count both as separate saccades. The numeric message index in `SAC_ON <index>` and `SAC_OFF <index>` allows pairing within a session and trial. Pair on `(RECORDING_SESSION_LABEL, TRIAL_INDEX, message index)` and subtract the `CURRENT_MSG_TIME` values to estimate duration in milliseconds.
+
+This pairing was checked on non-calibration rows. Exp. 1 has 112,388 `SAC_ON` and 112,025 `SAC_OFF` markers, yielding 112,025 complete pairs (363 onsets unmatched). Exp. 2 has 91,005 onsets and 90,739 offsets, yielding 90,738 pairs (267 unmatched onsets and one unmatched offset). The paired durations are positive: median 51 ms in both experiments; ranges are 20–865 ms in Exp. 1 and 20–1,467 ms in Exp. 2. `OS_TIME`-based and `CURRENT_MSG_TIME`-based differences agree exactly or within 2 ms for every pair. Most pairs therefore support deriving duration, while unmatched markers and the long-duration tail should be retained/flagged for quality review rather than silently discarded. The event messages still do not include the continuous sample stream needed to re-detect events or validate the tracker parser independently.
 
 ### Related event index files
 
@@ -90,7 +92,7 @@ The row is best understood as a **processed saccade/event-associated observation
 
 - **Gaze location:** Neither the event-log columns nor the 14 processed-table columns include a per-sample gaze `x/y` position or the saccade's start/end coordinates. Exp. 1 logs contain `GAZE_COORDS` setup messages, but those are not per-event gaze locations. `SHIFT_FROM_BASELINE`/`SHIFT_TO_BASELINE` messages carry numeric shift values, whose coordinate system and units are not defined in this archive; do not treat them as gaze coordinates.
 - **Saccade amplitude:** `CURRENT_SAC_AMPLITUDE` is present as a scalar in most processed rows. Its unit and exact computation are undocumented, so it is not safe to interpret its numeric values as visual degrees or screen pixels without external documentation.
-- **Saccade duration:** There is no explicit `CURRENT_SAC_DURATION` field. One can calculate `CURRENT_SAC_END_TIME - CURRENT_SAC_START_TIME` or pair `SAC_ON`/`SAC_OFF` timestamps in the event log as a candidate duration, but pairing rules and timestamp reference/units are not fully documented. A quick subtraction across the broad processed tables has typical per-set medians around 31–34 time units but also yields very large outliers (up to 46,246 units); this is a diagnostic only, not a validated duration measure. Validate event pairing and investigate outliers before using such a calculation.
+- **Saccade duration:** There is no explicit `CURRENT_SAC_DURATION` field. The event logs support deriving duration by pairing `SAC_ON` and `SAC_OFF` on participant/session, trial, and message index, then subtracting trial-relative `CURRENT_MSG_TIME` values (milliseconds). The pairing coverage and observed duration ranges are reported above; flag unmatched markers and review the long tail. The processed-table `CURRENT_SAC_END_TIME - CURRENT_SAC_START_TIME` calculation has much larger outliers (up to 46,246 units) and different medians, so do not substitute that calculation without resolving its time-reference/field semantics.
 
 ### Broad table vs. manipulation table
 
