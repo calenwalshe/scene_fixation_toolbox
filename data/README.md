@@ -7,6 +7,8 @@ This page describes the public aggregate histograms and the supporting archive o
 
 [Download the archive](vision-research.zip) · [Verify its SHA-256 checksum](vision-research.zip.sha256)
 
+For the detailed schemas, example records, field caveats, join keys, and coverage counts, see the [technical data specification](TECHNICAL_SPEC.md).
+
 ## Start here
 
 The archive is a collection of related files rather than a single ready-to-analyze table. For the fixation analyses, the main path is:
