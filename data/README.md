@@ -12,16 +12,20 @@ This page describes the public aggregate histograms and the supporting archive o
 The archive is a collection of related files rather than a single ready-to-analyze table. For the fixation analyses, the main path is:
 
 ```text
-processed_data_*  ── all saved processed events/fixations
-       │
-       └─ manipulate_only_*  ── manipulation-event subset
-                  │
-                  ├─ event/trial logs + index mapping ── add trial IDs and conditions
-                  ├─ sceneid.txt ── add scene labels
-                  └─ report filters ── retained observations ── duration histograms
+trial_time logs ── event/message records (including detected saccade markers)
+        │
+        └─ index mapping ── trial IDs / event context ───────────────┐
+                                                                      │
+processed_data_* ── saved processed event/fixation records ──────────┤
+manipulate_only_* ── saved manipulation-event subset ────────────────┤
+sceneid.txt ── scene labels ─────────────────────────────────────────┘
+                                  │
+                           report filters
+                                  │
+                    retained observations → histograms
 ```
 
-The `processed_data_*` and `manipulate_only_*` objects are separate saved data frames; the latter is not a command that derives itself from the former. The report uses the manipulation-only objects for the up/down analyses and uses the broader processed objects where it needs baseline/no-change observations. Experiment 3 (`BS`) is archived but is not included in the report's published histogram comparison.
+The `processed_data_*` and `manipulate_only_*` objects are separate saved data frames; the latter is not a command that derives itself from the former. The report loads these precomputed tables; it does not build their fixation rows from the `trial_time` logs. The report uses manipulation-only records for up/down analyses and the broader processed records where it needs baseline/no-change observations. Experiment 3 (`BS`) is archived but is not included in the report's published histogram comparison.
 
 ## Published aggregate distributions
 
@@ -46,7 +50,7 @@ The plotted values are aggregated proportions. They do not show participant-leve
 | --- | --- | --- |
 | `processed_data_*.txt` | Gzip-compressed R serialized objects, despite the `.txt` suffix | Broader processed fixation/event data, including baseline and manipulation event types. |
 | `manipulate_only_*.txt` | Gzip-compressed R serialized objects | Saved subset of events associated with manipulations; the archived report uses these for up/down conditions. |
-| `exp1_*`, `exp2_*` timing, variable, and saccade-count files | Tab-separated text | Event messages/timestamps, trial variables, and trial-level saccade counts. |
+| `exp1_*`, `exp2_*` timing, variable, and saccade-count files | Tab-separated text | Event/message exports with timestamps (including `SAC_ON`, `SAC_OFF`, and shift markers), trial variables, and trial-level saccade-count summaries. |
 | `asymfix_exp*_ind2num.txt` | Tab-separated text | Event-log/trial-index mapping used to derive trial identifiers. |
 | `sceneid.txt`, `SceneID/` | Text and MATLAB `.mat` files | Trial-to-scene mapping and per-subject scene metadata. |
 | `VR_report.Rmd`, `VR_report.md`, `summarySE.R` | R Markdown and R source | Archived report and analysis helper. |
@@ -135,7 +139,9 @@ size(human_data) % 60 rows: 20 bins for each of 3 conditions
 
 ## Reconstructing the report's joins and filters
 
-The event logs and fixation tables are related by IDs, not by their row positions. The report parses a `Trial_Info` value from the event-message text in `asymfix_exp*_ind2num.txt`, renames `RECORDING_SESSION_LABEL` to `SUBJECT` and `TRIAL_INDEX` to `TRIAL_NUM`, then joins to fixation data on **both** `SUBJECT` and `TRIAL_NUM`. It joins `sceneid.txt` to add `Scene` using subject and trial identifiers. Preserve the original keys and check for duplicate keys/many-to-many joins before interpreting merged row counts.
+The `exp*_trial_time.txt` files have one row per message/event record, not one row per gaze sample or fixation. Their six columns are `RECORDING_SESSION_LABEL`, `CURRENT_MSG_TEXT`, `TRIAL_INDEX`, `Condition`, `CALIBRATION`, and `CURRENT_MSG_TIME`. Message text includes tracker/event markers such as `SAC_ON`, `sacstart`, `SAC_OFF`, `SHIFT_FROM_BASELINE`, and `SHIFT_TO_BASELINE`. These are event-level software output: they expose events detected/recorded by the acquisition pipeline, but they are not the underlying continuous EDF/ASC gaze samples. The archive does not document the exact export step or contain source gaze samples to reconstruct it independently.
+
+The event logs and fixation tables are related by IDs, not by their row positions. In the report's joins, a `Trial_Info` value is parsed from event-message text in `asymfix_exp*_ind2num.txt`; `RECORDING_SESSION_LABEL` is renamed to `SUBJECT` and `TRIAL_INDEX` to `TRIAL_NUM`, then matched to fixation records on **both** `SUBJECT` and `TRIAL_NUM`. `sceneid.txt` adds `Scene` using subject and trial identifiers. Preserve the original keys and check for duplicate keys/many-to-many joins before interpreting merged row counts. This report-side joining/filtering is downstream of the saved fixation objects; it is not the step that parses continuous eye samples into those objects.
 
 In outline, the report's publication filtering path:
 
@@ -149,7 +155,7 @@ This historical path yields 14,174 retained observations in Experiment 1 and 11,
 
 ## Scope and limitations
 
-- These are processed fixation/event records and trial logs, not raw gaze samples. No raw EDF/ASC recordings were present in the source archive.
+- The trial-time files are event-level software output; the saved fixation tables are already processed records. Neither is the raw continuous gaze-sample stream. No raw EDF/ASC recordings were present in the source archive.
 - Saccade-on and saccade-off messages are present; no explicit cancellation event labels were found.
 - Several time/amplitude fields do not have units or detailed definitions in the archived documentation. Do not infer units from names alone.
 - The archived report is legacy code. The release copy removes workstation-specific absolute paths; rerunning may require adapting paths and installing the original R dependencies.
