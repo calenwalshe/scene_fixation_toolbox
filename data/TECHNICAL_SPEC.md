@@ -1,8 +1,8 @@
 # Vision Research archive: technical data specification
 
-> **Post hoc audit — advisory, not authoritative.** I prepared this note by inspecting the files and legacy report in the archive Antje Nuthmann sent me. I intend it to help future readers understand and work with the data. My field interpretations, inferred relationships, and quality checks are guidance, not an official codebook or definitive account of the original acquisition and processing pipeline. Readers should confirm unresolved definitions against original study documentation or with the data authors where possible.
+> **Status:** Post hoc audit of the supplied files. This specification is intended to support future use of the archive. It records observed contents and cautious interpretations; it is advisory, not authoritative metadata, an official codebook, or a definitive account of the acquisition and processing pipeline.
 
-I wrote this technical guide for readers who want to inspect or reuse the files in [`vision-research.zip`](vision-research.zip). It describes the archive's observed structure and my cautious interpretations of legacy fields; it does not reconstruct the original EDF/ASC acquisition pipeline.
+This specification documents the observed structure of [`vision-research.zip`](vision-research.zip), the legacy report, and related files. It does not reconstruct the original EDF/ASC acquisition pipeline.
 
 ## 1. Scope and provenance
 
@@ -49,20 +49,20 @@ Exp. 1 also includes `TRIALID`, `SYNCTIME`, `RECCFG`, `GAZE_COORDS`, `THRESHOLDS
 
 These are **message rows, not one row per saccade or fixation**. In particular, `SAC_ON` and `sacstart` appear as separate messages around the same saccade start; do not count both as separate saccades. The numeric message index in `SAC_ON <index>` and `SAC_OFF <index>` allows pairing within a session and trial. Pair on `(RECORDING_SESSION_LABEL, TRIAL_INDEX, message index)` and subtract the `CURRENT_MSG_TIME` values to estimate duration in milliseconds.
 
-I paired markers on non-calibration rows using session, trial, and message index. In Exp. 1, 112,388 `SAC_ON` and 112,025 `SAC_OFF` markers produce 112,025 complete pairs, leaving 363 unmatched onsets. In Exp. 2, 91,005 onsets and 90,739 offsets produce 90,738 pairs, leaving 267 unmatched onsets and one unmatched offset. All paired durations are positive: the median is 51 ms in both experiments; the ranges are 20–865 ms in Exp. 1 and 20–1,467 ms in Exp. 2. For every pair, `OS_TIME`-based and `CURRENT_MSG_TIME`-based differences agree exactly or within 2 ms. This supports deriving duration for matched events. I recommend flagging unmatched markers and the long-duration tail for review rather than silently discarding them. The event messages do not include the continuous sample stream needed to re-detect events or independently validate the tracker parser.
+Non-calibration markers were paired by session, trial, and message index. In Exp. 1, 112,388 `SAC_ON` and 112,025 `SAC_OFF` markers produce 112,025 complete pairs, leaving 363 unmatched onsets. In Exp. 2, 91,005 onsets and 90,739 offsets produce 90,738 pairs, leaving 267 unmatched onsets and one unmatched offset. All paired durations are positive: the median is 51 ms in both experiments; the ranges are 20–865 ms in Exp. 1 and 20–1,467 ms in Exp. 2. For every pair, `OS_TIME`-based and `CURRENT_MSG_TIME`-based differences agree exactly or within 2 ms. These results support deriving duration for matched events. Unmatched markers and the long-duration tail should be flagged for review rather than silently discarded. The event messages do not include the continuous sample stream needed to re-detect events or independently validate the tracker parser.
 
 ### Post hoc duration-distribution sanity check
 
-In my first-pass check, the measured distributions look broadly plausible, but I cannot validate them against the original eye traces. The table summarizes complete non-calibration pairs:
+The measured distributions appear broadly plausible as a first-pass check, but cannot be validated against the original eye traces. The table summarizes complete non-calibration pairs:
 
 | Experiment | Matched pairs | Mean | Median | 90th percentile | 95th percentile | 99th percentile | Range | Over 200 ms |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | 1 | 112,025 | 54.9 ms | 51 ms | 81 ms | 94 ms | 143 ms | 20–865 ms | 322 (0.29%) |
 | 2 | 90,738 | 54.5 ms | 51 ms | 80 ms | 88 ms | 131 ms | 20–1,467 ms | 199 (0.22%) |
 
-Most paired durations fall in the tens-of-milliseconds range. As a point of comparison, a natural-scene viewing study estimated mean saccade execution duration at 37 ms. That estimate comes from a different task and measure, so I treat it as context rather than a pass/fail threshold ([Nuthmann et al., 2010](https://jhenderson.org/vclab/PDF_Pubs/Nuthmann_Smith_Engbert_Henderson_PsychRev_2010.pdf)). A separate visual-scene exploration study reported two modes in saccade-duration distributions and used a <200 ms preprocessing cutoff. This shows that distribution shape and exclusion rules depend on study and analysis choices; that cutoff is not a universal physiological boundary ([Devillez et al., 2020](https://ccnlab.org/papers/DevillezGuyaderCurranEtAl20.pdf)).
+Most paired durations fall in the tens-of-milliseconds range. A natural-scene viewing study estimated mean saccade execution duration at 37 ms; because the task and measure differ, this serves as context rather than a pass/fail threshold ([2010 scene-viewing study](https://doi.org/10.1037/a0018924)). A visual-scene exploration study reported two modes in saccade-duration distributions and used a <200 ms preprocessing cutoff. This illustrates that distribution shape and exclusion rules depend on study and analysis choices; that cutoff is not a universal physiological boundary ([2020 visual-scene exploration study](https://doi.org/10.1080/13506285.2020.1830325)).
 
-I recommend flagging the small fraction above 200 ms and the very long maxima for review; they should not be treated as errors automatically or silently removed. A useful next step is to inspect durations by participant and condition, verify marker pairing for the longest durations, and compare those events with the original EDF/ASC traces if they become available. The archive lacks continuous traces and gaze coordinates, so my check can assess plausibility but cannot independently validate event detection.
+The small fraction above 200 ms and the very long maxima should be flagged for review, not automatically treated as errors or silently removed. Further checks could inspect durations by participant and condition, verify marker pairing for the longest durations, and compare those events with the original EDF/ASC traces if available. The archive lacks continuous traces and gaze coordinates, so this audit assesses plausibility but cannot independently validate event detection.
 
 ### Related event index files
 
@@ -101,7 +101,7 @@ The six saved R data frames share this 14-column schema:
 | `NEXT_FIX_BLINK_AROUND` | factor | Observed values `NONE`, `BEFORE`, `AFTER`, `BOTH`; may be missing. | Encodes blink adjacency around the next fixation; exact interval definition is not supplied. |
 | `MS_PRIOR_SAC_END` | integer | Relative timing value used in the report's `>= 0` filter for shifted records. | The name indicates milliseconds, but the full reference event/derivation is not documented. |
 
-I interpret each row as a **processed saccade/event-associated observation with adjacent fixation measurements**, not as an unambiguously complete, unique list of every tracker-detected fixation. `PREVIOUS_FIX_DUR` and `NEXT_FIX_DUR` describe neighboring fixation durations; the `CURRENT_SAC_*` fields describe a saccade associated with the event. The saved files do not include gaze coordinates or sample-by-sample eye position.
+Each row is best interpreted as a **processed saccade/event-associated observation with adjacent fixation measurements**, not as an unambiguously complete, unique list of every tracker-detected fixation. `PREVIOUS_FIX_DUR` and `NEXT_FIX_DUR` describe neighboring fixation durations; the `CURRENT_SAC_*` fields describe a saccade associated with the event. The saved files do not include gaze coordinates or sample-by-sample eye position.
 
 ### Spatial location and saccade duration
 
