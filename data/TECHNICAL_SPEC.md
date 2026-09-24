@@ -1,5 +1,7 @@
 # Vision Research archive: technical data specification
 
+> **Post hoc audit — advisory, not authoritative.** This note was prepared by inspecting the files and legacy report in the supplied archive. Its purpose is to help future users understand and work with the files. Field interpretations, inferred relationships, and quality checks should be treated as helpful guidance, not as an official codebook or definitive account of the original acquisition/processing pipeline. Confirm unresolved definitions with original study documentation or the data authors where possible.
+
 This note is a handover guide to the files in [`vision-research.zip`](vision-research.zip), which was received as `Vision Research.zip` from Antje Nuthmann. It documents observed file structure and cautious interpretations of the legacy fields. It is not a reconstruction of the original EDF/ASC acquisition pipeline.
 
 ## 1. Scope and provenance
@@ -48,6 +50,19 @@ Exp. 1 also includes `TRIALID`, `SYNCTIME`, `RECCFG`, `GAZE_COORDS`, `THRESHOLDS
 These are **message rows, not one row per saccade or fixation**. In particular, `SAC_ON` and `sacstart` appear as separate messages around the same saccade start; do not count both as separate saccades. The numeric message index in `SAC_ON <index>` and `SAC_OFF <index>` allows pairing within a session and trial. Pair on `(RECORDING_SESSION_LABEL, TRIAL_INDEX, message index)` and subtract the `CURRENT_MSG_TIME` values to estimate duration in milliseconds.
 
 This pairing was checked on non-calibration rows. Exp. 1 has 112,388 `SAC_ON` and 112,025 `SAC_OFF` markers, yielding 112,025 complete pairs (363 onsets unmatched). Exp. 2 has 91,005 onsets and 90,739 offsets, yielding 90,738 pairs (267 unmatched onsets and one unmatched offset). The paired durations are positive: median 51 ms in both experiments; ranges are 20–865 ms in Exp. 1 and 20–1,467 ms in Exp. 2. `OS_TIME`-based and `CURRENT_MSG_TIME`-based differences agree exactly or within 2 ms for every pair. Most pairs therefore support deriving duration, while unmatched markers and the long-duration tail should be retained/flagged for quality review rather than silently discarded. The event messages still do not include the continuous sample stream needed to re-detect events or validate the tracker parser independently.
+
+### Post hoc duration-distribution sanity check
+
+The measured distributions are broadly plausible as a first-pass check, but this is not a validation against the original eye traces. Summary of complete non-calibration pairs:
+
+| Experiment | Matched pairs | Mean | Median | 90th percentile | 95th percentile | 99th percentile | Range | Over 200 ms |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 112,025 | 54.9 ms | 51 ms | 81 ms | 94 ms | 143 ms | 20–865 ms | 322 (0.29%) |
+| 2 | 90,738 | 54.5 ms | 51 ms | 80 ms | 88 ms | 131 ms | 20–1,467 ms | 199 (0.22%) |
+
+The central mass is on a tens-of-milliseconds scale. As context, a natural-scene viewing study estimated mean saccade execution duration at 37 ms; that is not a directly matched statistic or task, so it is a reference point rather than a pass/fail threshold ([Nuthmann et al., 2010](https://jhenderson.org/vclab/PDF_Pubs/Nuthmann_Smith_Engbert_Henderson_PsychRev_2010.pdf)). A separate visual-scene exploration study reported saccade-duration distributions with two modes and used a <200 ms preprocessing cutoff; this illustrates that distribution shape and exclusion rules depend on study and analysis choices ([Devillez et al., 2020](https://ccnlab.org/papers/DevillezGuyaderCurranEtAl20.pdf)). That cutoff is not a universal physiological boundary.
+
+The small fraction above 200 ms and the very long maxima should be flagged for review, not automatically treated as errors or silently removed. A useful follow-up is to inspect duration distributions by participant and condition, verify event pairing for the longest durations, and compare them with the original EDF/ASC traces if those become available. This archive lacks those continuous traces and gaze coordinates, so the present check can assess plausibility but cannot independently validate event detection.
 
 ### Related event index files
 
