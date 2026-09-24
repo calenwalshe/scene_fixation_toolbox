@@ -86,6 +86,12 @@ The six saved R data frames share this 14-column schema:
 
 The row is best understood as a **processed saccade/event-associated observation with adjacent fixation measurements**, not as an unambiguously complete, unique list of all tracker-detected fixations. `PREVIOUS_FIX_DUR` and `NEXT_FIX_DUR` describe the neighboring fixation durations; the `CURRENT_SAC_*` fields describe a saccade associated with the event. The saved files do not include gaze coordinates or sample-by-sample eye position.
 
+### Spatial location and saccade duration
+
+- **Gaze location:** Neither the event-log columns nor the 14 processed-table columns include a per-sample gaze `x/y` position or the saccade's start/end coordinates. Exp. 1 logs contain `GAZE_COORDS` setup messages, but those are not per-event gaze locations. `SHIFT_FROM_BASELINE`/`SHIFT_TO_BASELINE` messages carry numeric shift values, whose coordinate system and units are not defined in this archive; do not treat them as gaze coordinates.
+- **Saccade amplitude:** `CURRENT_SAC_AMPLITUDE` is present as a scalar in most processed rows. Its unit and exact computation are undocumented, so it is not safe to interpret its numeric values as visual degrees or screen pixels without external documentation.
+- **Saccade duration:** There is no explicit `CURRENT_SAC_DURATION` field. One can calculate `CURRENT_SAC_END_TIME - CURRENT_SAC_START_TIME` or pair `SAC_ON`/`SAC_OFF` timestamps in the event log as a candidate duration, but pairing rules and timestamp reference/units are not fully documented. A quick subtraction across the broad processed tables has typical per-set medians around 31–34 time units but also yields very large outliers (up to 46,246 units); this is a diagnostic only, not a validated duration measure. Validate event pairing and investigate outliers before using such a calculation.
+
 ### Broad table vs. manipulation table
 
 The broad `processed_data_*` tables have these `SHIFT_TYPE` counts:
